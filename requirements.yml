@@ -1,0 +1,8 @@
+name: trans
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - matplotlib
+  - openpyxl
