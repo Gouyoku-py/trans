@@ -5,3 +5,5 @@ dependencies:
   - numpy
   - pandas
   - openpyxl
+  - pip:
+    - matplotlib
