@@ -63,12 +63,13 @@ def f(x):
     y.fillna('-', inplace = True)
     y.index = y.index.strftime('%d/%m/%Y')
     y['cost_center'] = y['cost_center'].apply(lambda x: int(x) if isinstance(x, float) else x)
+    y['value'] = y['value'].apply(lambda x: '{:,.1f} €'.format(x))
     
     y.columns = ['ΚΙΝ.', 'ΠΕΡΙΓΡΑΦΗ', 'Κ.Κ.', 'ΕΝΤ.', 'WBS', 'ΠΟΣ.', 'ΜΟΝ.', 'ΑΞΙΑ', 'ΠΑΡΑΛΗΠΤΗΣ']
     
     st.pyplot(fig_i)
     #st.dataframe(y.style.pipe(make_pretty))
-    st.dataframe(y)
+    st.dataframe(y, use_container_width = True)
      
     return None
 
