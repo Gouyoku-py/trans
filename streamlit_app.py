@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 
-st.title('Κινήσεις υπό εξέταση υλικών')
+st.title('Ιστορικό Κινήσεων Υλικών ΚΑ')
 
 @st.cache_data
 def load_trans_type_data():
@@ -35,9 +35,9 @@ trans.sort_values(['code', 'date', 'trans_type'], inplace = True)
 
 new_date_range = pd.date_range(start = "1998-12-31", end = "2022-12-31", freq = 'Y')
 
-def make_pretty(styler):
-    styler.format_index(lambda x: x.strftime("%Y-%m-%d"))
-    return styler
+#def make_pretty(styler):
+#    styler.format_index(lambda x: x.strftime("%Y-%m-%d"))
+#    return styler
 
 def f(x):
     x = int(x)
@@ -46,7 +46,7 @@ def f(x):
     y_q = y['quantity'].copy(deep = True)
 
     y_df = pd.concat([y_q.where(y_q > 0), y_q.where(y_q < 0)], axis = 1)
-    y_df.columns = ['pos', 'neg']
+    y_df.columns = ['Εισαγωγή σε ΚΑ', 'Εξαγωγή από ΚΑ']
 
     freq = 'Y'
     y_df = y_df.resample(freq, closed = 'right', label = 'right').sum()
@@ -60,8 +60,15 @@ def f(x):
               xlabel = 'Έτος', ylabel = 'Ποσότητα / {}'.format(y_unit), rot = 45, color = ['C2', 'C3'])
     ax_i.axhline(y = 0, c = 'k', ls = '--', lw = 1.0)
     
+    y.fillna('-', inplace = True)
+    y.index = y.index.date#.apply(lambda x: x.strftime('%d/%m/%Y'))
+    y['cost_center'] = y['cost_center'].apply(lambda x: int(x) if isinstance(x, float) else x)
+    
+    y.columns = ['ΚΙΝ.', 'ΠΕΡΙΓΡΑΦΗ', 'Κ.Κ.', 'ΕΝΤ.', 'WBS', 'ΠΟΣ.', 'ΜΟΝ.', 'ΑΞΙΑ', 'ΠΑΡΑΛΗΠΤΗΣ']
+    
     st.pyplot(fig_i)
-    st.dataframe(y.style.pipe(make_pretty))
+    #st.dataframe(y.style.pipe(make_pretty))
+    st.dataframe(y)
      
     return None
 
