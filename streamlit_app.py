@@ -61,7 +61,7 @@ def f(x):
     ax_i.axhline(y = 0, c = 'k', ls = '--', lw = 1.0)
     
     y.fillna('-', inplace = True)
-    y.index = y.index.date#.apply(lambda x: x.strftime('%d/%m/%Y'))
+    y.index = y.index.strftime('%d/%m/%Y')
     y['cost_center'] = y['cost_center'].apply(lambda x: int(x) if isinstance(x, float) else x)
     
     y.columns = ['ΚΙΝ.', 'ΠΕΡΙΓΡΑΦΗ', 'Κ.Κ.', 'ΕΝΤ.', 'WBS', 'ΠΟΣ.', 'ΜΟΝ.', 'ΑΞΙΑ', 'ΠΑΡΑΛΗΠΤΗΣ']
